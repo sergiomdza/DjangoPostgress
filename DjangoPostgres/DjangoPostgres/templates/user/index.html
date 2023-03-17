@@ -1,0 +1,33 @@
+{% extends '../base.html' %}
+
+{% block title %} Agregar Alumnos {% endblock %}
+
+{% block content %}
+<br><br><br><br><br>
+<div class="container mx-auto">
+  <div class="">
+    {% comment %} <a href="{% url 'add_alumno' %}" class="btn btn-link">Agregar usaurio</a> {% endcomment %}
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Firma</th>
+        <th scope="col">Contraseña</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in users %}
+      <tr>
+        <td>{{item.signature}}</td>
+        <td>{{item.password}}</td>
+  
+        {% comment %} <td>
+          <a href="{% url 'update_alumno' id_alumno=item.id %}" class="btn btn-primary">Actualizar</a>
+          <a href="{% url 'delete_alumno' id_alumno=item.id %}" class="btn btn-danger">Eliminar</a>
+        </td> {% endcomment %}
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
