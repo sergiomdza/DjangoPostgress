@@ -12,3 +12,6 @@ DjangoPostgres\Odoo> docker-compose up
 
 # 4) Después ejecute el docker compose de la Carpeta DjangoPostrgres
 DjangoPostgres> docker-compose up
+
+
+A ver fuentes, no mames
