@@ -10,8 +10,13 @@ DjangoPostgres\Odoo> docker-compose up
 
 # 3.2) Si no, si le pide hacer Login refierase a la foto Config.png para obtener los valores
 
-# 4) Después ejecute el docker compose de la Carpeta DjangoPostrgres
-DjangoPostgres> docker-compose up
+# 4) Acceda a la consola de Django del contenedor de docker y ejecute los siguientes comandos
+python3 manage.py makemigrations
+python3 manage.py migrate
 
+# 5) Ejecute el comando para crear un nuevo superusuario
+python3 manage.py createsuperuser
 
-A ver fuentes, no mames
+# 6) Ponga los siguientes datos:
+*UserName:* admin
+*Password:* adminpassword
