@@ -20,4 +20,5 @@ from api.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', index_page, name='index_page'),
+    path('', home_page, name='home_page')
 ]
