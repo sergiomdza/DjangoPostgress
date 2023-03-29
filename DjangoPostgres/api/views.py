@@ -4,23 +4,18 @@ from api.models import ResUsers
 import xmlrpc.client
 
 # Configurar la conexión
-url = 'http://localhost:8069'
-db = 'odooDB2'
+url = 'http://18.223.171.177:8069'
+db = 'odooDB'
 username = 'sergio_mdza@outlook.com'
-password = 'odooDB'
-
-# Establecer la conexión
-info = xmlrpc.client.ServerProxy('https://demo.odoo.com/start').start()
-url, db, username, password = info['host'], info['database'], info['user'], info['password']
+password = 'odoo'
 
 #Login
-common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
+common = xmlrpc.client.ServerProxy('%s/xmlrpc/2/common' % url)
 common.version()
 uid = common.authenticate(db, username, password, {})
 
-models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
+models = xmlrpc.client.ServerProxy('%s/xmlrpc/2/object' % url)
 models.execute_kw(db, uid, password, 'res.partner', 'check_access_rights', ['read'], {'raise_exception': False})
-
 
 # Create your views here.
 def index_page(request):
@@ -35,6 +30,8 @@ def index_page(request):
 def home_page(request):
 
   response = models.execute_kw(db, uid, password, 'product.product', 'search_read', [], { 'fields': ['name', 'description', 'lst_price', 'categ_id', 'sale_ok' ] })
+
+  print('response: ', response)
 
   data = {
     'object_list': response
@@ -56,22 +53,25 @@ def product_details(request, id):
   return render(request, 'details.html', data)
 
 def add_product(request):
-  
-
   return render(request, 'add_product.html', {})
 
 def post_product(request):
   name, description, price, stock = request.POST.get('name'), request.POST.get('description'), request.POST.get('price'), request.POST.get('stock')
 
-  response = models.execute_kw(db, uid, password, 'product.product', 'create', [{ 
+  id = models.execute_kw(db, uid, password, 'product.product', 'create', [{ 
     "name": name,
     "description": description,
-    "list_price": price 
+    "list_price": int(price)
   }])
 
-  print(response)
+  # models.execute_kw(db, uid, password, 'stock.quant', 'create', [{ 
+  #   "product_id": id,
+  #   "company_id": 1,
+  #   "location_id": 1,
+  #   "reserved_quantity": 0
+  # }])
 
-  indexResponse = models.execute_kw(db, uid, password, 'product.product', 'search_read', [[['id', '=', id]]], { 'fields': ['id', 'name', 'description', 'lst_price'] })
+  indexResponse = models.execute_kw(db, uid, password, 'product.product', 'search_read', [], { 'fields': ['id', 'name', 'description', 'lst_price'] })
 
   data = {
     'object_list': indexResponse
