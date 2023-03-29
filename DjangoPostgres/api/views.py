@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from api.models import ResUsers
 
 import xmlrpc.client
@@ -53,28 +53,22 @@ def product_details(request, id):
   return render(request, 'details.html', data)
 
 def add_product(request):
-  return render(request, 'add_product.html', {})
+  if request.method == 'POST':
+    name, description, price = request.POST.get('name'), request.POST.get('description'), request.POST.get('price')
 
-def post_product(request):
-  name, description, price, stock = request.POST.get('name'), request.POST.get('description'), request.POST.get('price'), request.POST.get('stock')
+    id = models.execute_kw(db, uid, password, 'product.product', 'create', [{ 
+      "name": name,
+      "description": description,
+      "list_price": int(price)
+    }])
 
-  id = models.execute_kw(db, uid, password, 'product.product', 'create', [{ 
-    "name": name,
-    "description": description,
-    "list_price": int(price)
-  }])
+    # models.execute_kw(db, uid, password, 'stock.quant', 'create', [{ 
+    #   "product_id": id,
+    #   "company_id": 1,
+    #   "location_id": 1,
+    #   "reserved_quantity": 0
+    # }])
 
-  # models.execute_kw(db, uid, password, 'stock.quant', 'create', [{ 
-  #   "product_id": id,
-  #   "company_id": 1,
-  #   "location_id": 1,
-  #   "reserved_quantity": 0
-  # }])
+    return redirect('home_page')
 
-  indexResponse = models.execute_kw(db, uid, password, 'product.product', 'search_read', [], { 'fields': ['id', 'name', 'description', 'lst_price'] })
-
-  data = {
-    'object_list': indexResponse
-  }
-
-  return render(request, 'index.html', data)
+  return render(request, 'add_product.html')

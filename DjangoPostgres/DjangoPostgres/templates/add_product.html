@@ -18,7 +18,7 @@
 
     <h2>Product Form</h2>
 
-    <form method="POST" action="{% url 'post_product' %}" class="form">
+    <form method="POST" action="{% url 'add_product' %}" class="form">
       {% csrf_token %}
       <div class="form-group">
         <label for="nombre">Name:</label>

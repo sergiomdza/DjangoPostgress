@@ -23,5 +23,4 @@ urlpatterns = [
     path('', home_page, name='home_page'),
     path('product_details/<int:id>/', product_details, name='product_details'),
     path('add_product/', add_product, name='add_product'),
-    path('post_product/', post_product, name='post_product'),
 ]
