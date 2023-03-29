@@ -31,8 +31,6 @@ def home_page(request):
 
   response = models.execute_kw(db, uid, password, 'product.product', 'search_read', [], { 'fields': ['name', 'description', 'lst_price', 'categ_id', 'sale_ok' ] })
 
-  print('response: ', response)
-
   data = {
     'object_list': response
   }
@@ -72,3 +70,24 @@ def add_product(request):
     return redirect('home_page')
 
   return render(request, 'add_product.html')
+
+def edit_product(request, id):
+  if request.method == 'POST':
+    name, description, price = request.POST.get('name'), request.POST.get('description'), request.POST.get('price')
+
+    models.execute_kw(db, uid, password, 'product.product', 'write', [[id], { "name": name, "description": description, "price": price }])
+
+    return redirect('product_details', id=id)
+
+  response = models.execute_kw(db, uid, password, 'product.product', 'search_read', [[['id', '=', id]]], { 'fields': ['id', 'name', 'description', 'lst_price'] })
+
+  data = {
+    'object': response[0]
+  }
+
+  return render(request, 'edit_product.html', data)
+
+def delete_product(request, id):
+  models.execute_kw(db, uid, password, 'product.product', 'unlink', [[id]])
+
+  return redirect('home_page')

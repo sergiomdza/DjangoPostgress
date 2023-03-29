@@ -1,147 +1,90 @@
 <!DOCTYPE html>
-    <html>
+<html>
 
-    <head>
-      <style>
-        .mt-5.pt-4{
-          margin-top: -0.5em!important
-        }
+<head>
+  <style>
+    .mt-5.pt-4 {
+      margin-top: -0.5em !important
+    }
 
-        .col-md-6.mb-4.image {
-          margin-top: 32px;
-        }
+    .col-md-6.mb-4.image {
+      margin-top: 32px;
+    }
 
 
-        .btn-default.nav-link.waves-effect.add-to-cart {
-          background: #0071bc!important;
-          margin-left: 0px!important;
-        }
+    .btn-default.nav-link.waves-effect.add-to-cart {
+      background: #0071bc !important;
+      margin-left: 0px !important;
+    }
 
-        .badge {
-          background: #0071bc!important;
-        }
+    .badge {
+      background: #0071bc !important;
+    }
 
-        .buttons-container {
-          display: flex;
-          flex-direction: row;
-          column-gap: 15px;
-        }
-        
-      </style>
-    </head>
+    .buttons-container {
+      display: flex;
+      flex-direction: row;
+      column-gap: 15px;
+    }
+  </style>
+</head>
 
-    </html>
+</html>
 
 {% extends "base.html" %}
 
 {% block content %}
 
-    <main class="mt-5 pt-4">
-      <div class="container dark-grey-text mt-5">
+<main class="mt-5 pt-4">
+  <div class="container dark-grey-text mt-5">
+    <div class="row wow fadeIn">
 
-        <!--Grid row-->
-        <div class="row wow fadeIn">
+      <div class="col-md-6 mb-4 image">
 
-          <!--Grid column-->
-          <div class="col-md-6 mb-4 image">
-
-            <img src="http://localhost:8069/web/image?model=product.template&id={{ object.id }}&field=image_512" class="img-fluid" alt="">
-
-          </div>
-          <!--Grid column-->
-
-          <!--Grid column-->
-          <div class="col-md-6 mb-4">
-
-            <!--Content-->
-            <div class="p-4">
-              <h1>{{object.name}}</h1>
-
-              <p class="lead">
-                <span>${{ object.lst_price }}</span>
-              </p>
-
-              <p class="lead font-weight-bold">Description</p>
-
-              <p>{{ object.description }}</p>
-
-              {% if quantity > 0 %}
-              <h6><strong>Stock remaining:</strong> {{ quantity }}</h6>
-              {% else %}
-              <h4 class="font-weight-bold red-text">
-                <strong>
-                  SOLD OUT
-                </strong>
-              </h4>
-              {% endif %}
-            </div>
-
-            <div class="buttons-container">
-              <button type="button" class="btn btn-primary rounded">
-                Edit
-              </button>
-              <button type="button" class="btn btn-danger rounded">
-                Remove
-              </button>
-            </div>
-
-            <!--Content-->
-
-          </div>
-          <!--Grid column-->
-
-        </div>
-        <!--Grid row-->
-
-        <hr>
-
-        <!--Grid row-->
-        <div class="row d-flex justify-content-center wow fadeIn">
-
-          <!--Grid column-->
-          <!-- <div class="col-md-6 text-center">
-
-        <h4 class="my-4 h4">Additional information</h4>
-
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus suscipit modi sapiente illo soluta odit
-          voluptates,
-          quibusdam officia. Neque quibusdam quas a quis porro? Molestias illo neque eum in laborum.</p>
-
-      </div> -->
-          <!--Grid column-->
-
-        </div>
-        <!--Grid row-->
-
-        <!--Grid row-->
-        <div class="row wow fadeIn">
-
-          <!--Grid column-->
-          <!-- <div class="col-lg-4 col-md-12 mb-4">
-
-        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/11.jpg" class="img-fluid" alt="">
+        <img src="http://localhost:8069/web/image?model=product.template&id={{ object.id }}&field=image_512"
+          class="img-fluid" alt="">
 
       </div>
-      
-      <div class="col-lg-4 col-md-6 mb-4">
+      <div class="col-md-6 mb-4">
+        <div class="p-4">
+          <h1>{{object.name}}</h1>
 
-        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/12.jpg" class="img-fluid" alt="">
+          <p class="lead">
+            <span>${{ object.lst_price }}</span>
+          </p>
 
-      </div>
-      
-      <div class="col-lg-4 col-md-6 mb-4">
+          <p class="lead font-weight-bold">Description</p>
 
-        <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/13.jpg" class="img-fluid" alt="">
+          <p>{{ object.description }}</p>
 
-      </div> -->
-          <!--Grid column-->
-
+          {% if quantity > 0 %}
+          <h6><strong>Stock remaining:</strong> {{ quantity }}</h6>
+          {% else %}
+          <h4 class="font-weight-bold red-text">
+            <strong>
+              SOLD OUT
+            </strong>
+          </h4>
+          {% endif %}
         </div>
-        <!--Grid row-->
 
+        <div class="buttons-container">
+          <a href="edit/">
+            <button type="button" class="btn btn-primary rounded">
+              Edit
+            </button>
+          </a>
+          <form action="{% url 'delete_product' object.id %}" method="POST">
+            <button type="submit" class="btn btn-danger rounded">
+              Remove
+            </button>
+          </form>
+        </div>
       </div>
-    </main>
+    </div>
+  </div>
+</main>
 
-    </html>
+</html>
 
-    {% endblock content %}
+{% endblock content %}
