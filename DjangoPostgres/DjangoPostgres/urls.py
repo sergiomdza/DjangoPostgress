@@ -20,5 +20,8 @@ from api.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', index_page, name='index_page'),
-    path('', home_page, name='home_page')
+    path('', home_page, name='home_page'),
+    path('product_details/<int:id>/', product_details, name='product_details'),
+    path('add_product/', add_product, name='add_product'),
+    path('post_product/', post_product, name='post_product'),
 ]

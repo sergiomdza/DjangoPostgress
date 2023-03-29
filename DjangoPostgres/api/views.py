@@ -1,13 +1,12 @@
 from django.shortcuts import render
 from api.models import ResUsers
-import numpy as np
 
 import xmlrpc.client
 
 # Configurar la conexión
 url = 'http://localhost:8069'
-db = 'odooDB'
-username = 'email@email.com'
+db = 'odooDB2'
+username = 'sergio_mdza@outlook.com'
 password = 'odooDB'
 
 # Establecer la conexión
@@ -35,21 +34,47 @@ def index_page(request):
 
 def home_page(request):
 
-  response = models.execute_kw(db, uid, password, 'product.product', 'search_read', [], {'fields': ['name', 'description', 'lst_price', 'categ_id', 'sale_ok' ]})
-  # print('response', response)
-
-  # category_ids = []
-  # for x in response:
-  #   for y in x['categ_id']:
-  #     if (isinstance(y, int)):
-  #       category_ids.append(y)
-  
-  # print('Categories:', category_ids)
-  # response2 = models.execute_kw(db, uid, password, 'product.category', 'search_read', [[('id', 'in', category_ids)]], {'fields': ['name'], 'limit': 1})
-  # print('Response2:', response2)
+  response = models.execute_kw(db, uid, password, 'product.product', 'search_read', [], { 'fields': ['name', 'description', 'lst_price', 'categ_id', 'sale_ok' ] })
 
   data = {
     'object_list': response
+  }
+
+  return render(request, 'index.html', data)
+
+def product_details(request, id):
+
+  response = models.execute_kw(db, uid, password, 'product.product', 'search_read', [[['id', '=', id]]], { 'fields': ['id', 'name', 'description', 'lst_price'] })
+
+  stockResponse = models.execute_kw(db, uid, password, 'stock.quant', 'search_read', [[['product_id', '=', id]]], { 'fields': ['id', 'product_id', 'company_id', 'location_id', 'quantity' ], 'limit': 1 })
+
+  data = {
+    'object': response[0],
+    'quantity': stockResponse[0]['quantity'] if len(stockResponse) > 0 else 0
+  }
+
+  return render(request, 'details.html', data)
+
+def add_product(request):
+  
+
+  return render(request, 'add_product.html', {})
+
+def post_product(request):
+  name, description, price, stock = request.POST.get('name'), request.POST.get('description'), request.POST.get('price'), request.POST.get('stock')
+
+  response = models.execute_kw(db, uid, password, 'product.product', 'create', [{ 
+    "name": name,
+    "description": description,
+    "list_price": price 
+  }])
+
+  print(response)
+
+  indexResponse = models.execute_kw(db, uid, password, 'product.product', 'search_read', [[['id', '=', id]]], { 'fields': ['id', 'name', 'description', 'lst_price'] })
+
+  data = {
+    'object_list': indexResponse
   }
 
   return render(request, 'index.html', data)

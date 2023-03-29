@@ -124,32 +124,37 @@
     <!--/.Navbar-->
 
     <!--Section: Products v.3-->
-    <section class="text-center mb-4">
+    <section class="mb-4">
+
+      <a href="{% url 'add_product' %}">
+        <button class="btn btn-primary mb-4 rounded">
+          <i class="fa-regular fa-plus fa-bounce"></i> Add Product
+        </button>
+      </a>
 
       <div class="row wow fadeIn">
 
         {% for item in object_list %}
         <div class="col-lg-3 col-md-6 mb-4">
 
-          <div class="card" cattegory="{{item.categ_id.1}}">
+          <div class="card" style="height: 400px;" cattegory="{{item.categ_id.1}}">
 
             <div class="view overlay">
-              <img src="http://localhost:8069/web/image?model=product.template&id={{ item.id }}&field=image_128" class="card-img-top" style="object-fit: cover; max-height: 330px;">
-              <a href="{{ item.get_absolute_url }}">
+              <img src="http://localhost:8069/web/image?model=product.template&id={{ item.id }}&field=image_512" class="card-img-top" style="object-fit: contain; max-height: 330px;" alt="{{ item.name }}">
+              <a href=product_details/{{ item.id }}">
                 <div class="mask rgba-white-slight"></div>
               </a>
             </div>
 
             <div class="card-body text-center">
-              <a href="" class="grey-text">
-                <h5>{{ item.categ_id.1 }}</h5>
-              </a>
               <h5>
                 <strong>
                   <a href="{{ item.get_absolute_url }}" class="dark-grey-text">{{ item.name }}
                   </a>
                 </strong>
               </h5>
+
+              <h6 class="grey-text description"> {{ item.description }} </h6>
 
               <h4 class="font-weight-bold blue-text">
                 <strong>$

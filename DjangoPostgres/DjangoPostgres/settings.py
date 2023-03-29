@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'DjangoPostgres.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "odooDB",
+        "NAME": "odooDB2",
         "USER": "odoo",
         "PASSWORD": "odoo",
         "HOST": "db",
