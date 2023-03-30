@@ -41,8 +41,16 @@
 
       <div class="col-md-6 mb-4 image">
 
+        {% if product_image %}
+
+        <img src="{{ product_image }}" class="img-fluid" alt="">
+
+        {% else %}
+
         <img src="http://localhost:8069/web/image?model=product.template&id={{ object.id }}&field=image_512"
           class="img-fluid" alt="">
+
+        {% endif %}
 
       </div>
       <div class="col-md-6 mb-4">
